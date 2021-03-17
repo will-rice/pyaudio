@@ -22,7 +22,7 @@ jobs:
       - name: Build wheels
         uses: joerick/cibuildwheel@v1.10.0
         env:
-           CIBW_BEFORE_BUILD: sudo apt-get install portaudio19-dev
+           CIBW_BEFORE_BUILD: python setup.py install
 
       - uses: actions/upload-artifact@v2
         with:

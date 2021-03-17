@@ -23,7 +23,7 @@ jobs:
         uses: joerick/cibuildwheel@v1.10.0
         env:
            CIBW_BEFORE_BUILD: cd portaudio-v19 && ./configure && make install
-           CIBW_BUILD: cp38-*
+           CIBW_SKIP: pp*
            CIBW_TEST_COMMAND: {package}/test/record.py
 
       - uses: actions/upload-artifact@v2

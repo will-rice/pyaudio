@@ -30,7 +30,7 @@ from distutils.core import setup, Extension
 import sys
 import os
 
-__version__ = "0.2.8"
+__version__ = "0.0.1"
 
 # Note: distutils will try to locate and link dynamically
 #       against portaudio.
@@ -121,7 +121,7 @@ pyaudio = Extension('_portaudio',
                     extra_compile_args=extra_compile_args,
                     extra_link_args=extra_link_args)
 
-setup(name = 'PyAudio',
+setup(name = 'pyaudio-wheels',
       version = __version__,
       author = "Hubert Pham",
       url = "http://people.csail.mit.edu/hubert/pyaudio/",

@@ -24,7 +24,7 @@ jobs:
         env:
            CIBW_BEFORE_BUILD: cd portaudio-v19 && ./configure && make install
            CIBW_BUILD: cp38-*
-           CIBW_TEST_COMMAND: python {package}/test/error.py
+           CIBW_TEST_COMMAND: python {package}/test/wheel_test.py
 
       - uses: actions/upload-artifact@v2
         with:

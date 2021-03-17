@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-20.04, windows-2019, macos-10.15]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
         uses: joerick/cibuildwheel@v1.10.0
         env:
            CIBW_BEFORE_BUILD: cd portaudio-v19 && ./configure && make install
-           CIBW_BUILD: cp38-*
+           CIBW_SKIP: pp*
            CIBW_TEST_COMMAND: python {package}/test/wheel_test.py
 
       - uses: actions/upload-artifact@v2

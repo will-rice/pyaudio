@@ -24,7 +24,7 @@ jobs:
         env:
            CIBW_BEFORE_BUILD: cd portaudio-v19 && ./configure && make install
            CIBW_SKIP: pp*
-           CIBW_TEST_COMMAND: {package}/test/record.py
+           CIBW_TEST_COMMAND: python {package}/test/record.py
 
       - uses: actions/upload-artifact@v2
         with:

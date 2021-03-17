@@ -1,6 +1,11 @@
-name: Build
+name: Build and upload to PyPI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  release:
+    types:
+      - published
 
 jobs:
   build_wheels:
@@ -23,9 +28,45 @@ jobs:
         uses: joerick/cibuildwheel@v1.10.0
         env:
            CIBW_BEFORE_BUILD: cd portaudio-v19 && ./configure && make install
-           CIBW_SKIP: pp*
+           CIBW_BUILD: cp3*-*
            CIBW_TEST_COMMAND: python {package}/test/wheel_test.py
 
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v2
+        name: Install Python
+        with:
+          python-version: 3.8
+
+      - name: Build sdist
+        run: python setup.py sdist
+
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist/*.tar.gz
+
+  upload_pypi:
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    # publish when a GitHub Release is created
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: dist
+
+      - uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: ${{ secrets.PYPI_USERNAME }}
+          password: ${{ secrets.PYPI_PASSWORD }}

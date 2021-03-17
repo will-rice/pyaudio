@@ -22,7 +22,7 @@ jobs:
       - name: Build wheels
         uses: joerick/cibuildwheel@v1.10.0
         env:
-           CIBW_BEFORE_BUILD: cd portaudio-19 && ./configure && make install
+           CIBW_BEFORE_BUILD: cd portaudio-v19 && ./configure && make install
 
       - uses: actions/upload-artifact@v2
         with:
